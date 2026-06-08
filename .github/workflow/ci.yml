@@ -1,0 +1,32 @@
+name: CI - Testes Automatizados
+
+# Quando a pipeline será disparada
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest   # Máquina virtual onde tudo roda
+
+    steps:
+      # 1. Baixa o código do repositório
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # 2. Instala o Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Instala as dependências
+      - name: Instalar dependências
+        run: npm ci
+
+      # 4. Roda os testes
+      - name: Executar testes
+        run: npm test
